@@ -4,9 +4,19 @@ import { typeOrmConfig } from 'config/typeorm.config';
 import { OnboardingModule } from './on-boarding/on-boarding.module';
 import { PassportModule } from '@nestjs/passport';
 import { JwtModule } from '@nestjs/jwt';
+import { HomeownerModule } from './homeowner/homeowner.module';
+import { TenantModule } from './tenant/tenant.module';
+import { ChildrenModule } from './children/children.module';
+import { PartnerModule } from './partner/partner.module';
+import { BusinessModule } from './business/business.module';
 
 const apiModules = [
-  OnboardingModule
+  OnboardingModule,
+  HomeownerModule,
+  TenantModule,
+  ChildrenModule,
+  PartnerModule,
+  BusinessModule
 ];
 
 @Module({
