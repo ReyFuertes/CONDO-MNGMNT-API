@@ -1,6 +1,5 @@
 
-
-export interface IHomeowner {
+export interface IPersonal {
   id?: string;
   buildingNo?: string;
   unitNo?: string;
@@ -22,9 +21,4 @@ export interface IHomeowner {
   idNo?: string;
   uploadedIdFile?: string;
   uploadedFilePreview?: string
-
-  // onboarding: any;
-  // partner: any;
-  // children: any;
-  // business: any;
 }

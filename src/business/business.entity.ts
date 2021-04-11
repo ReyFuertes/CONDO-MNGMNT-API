@@ -9,14 +9,15 @@ export class Business extends BaseEntity {
   @Generated('uuid')
   id: string;
 
-  @ManyToOne(() => Homeowner, m => m.business,
-    { nullable: true })
-  @JoinColumn({ name: 'homeowner_id' })
-  homeowner: Homeowner;
-  @ManyToOne(() => Partner, m => m.business,
-    { nullable: true })
-  @JoinColumn({ name: 'partner_id' })
-  partner: Partner;
+  // @ManyToOne(() => Homeowner, m => m.business,
+  //   { nullable: true })
+  // @JoinColumn({ name: 'homeowner_id' })
+  // homeowner: Homeowner;
+  // @ManyToOne(() => Partner, m => m.business,
+  //   { nullable: true })
+  // @JoinColumn({ name: 'partner_id' })
+  // partner: Partner;
+
   @ManyToOne(() => Tenant, m => m.business,
     { nullable: true })
   @JoinColumn({ name: 'tenant_id' })

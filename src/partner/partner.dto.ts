@@ -1,11 +1,7 @@
 
 
-export interface IHomeowner {
+export interface IPartner {
   id?: string;
-  buildingNo?: string;
-  unitNo?: string;
-  parkingSlot?: string;
-  occupantType?: string;
   lastname?: string;
   firstname?: string;
   middlename?: string;
@@ -21,10 +17,5 @@ export interface IHomeowner {
   idType?: string;
   idNo?: string;
   uploadedIdFile?: string;
-  uploadedFilePreview?: string
-
-  // onboarding: any;
-  // partner: any;
-  // children: any;
-  // business: any;
+  uploadedFilePreview?: string;
 }

@@ -1,14 +1,20 @@
-import { Business } from "src/business/business.entity";
-import { Homeowner } from "src/homeowner/homeowner.entity";
 import { Onboarding } from "src/on-boarding/on-boarding.entity";
-import { Tenant } from "src/tenant/tenant.entity";
 import { Entity, BaseEntity, PrimaryGeneratedColumn, Generated, Column, OneToMany, ManyToOne, OneToOne, JoinColumn } from "typeorm";
 
 @Entity({ synchronize: true })
-export class Partner extends BaseEntity {
+export class Personal extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   @Generated('uuid')
   id: string;
+
+  @Column({ nullable: true })
+  buildingNo?: string;
+  @Column({ nullable: true })
+  unitNo?: string;
+  @Column({ nullable: true })
+  parkingSlot?: string;
+  @Column({ nullable: true })
+  occupantType?: string;
   @Column({ nullable: true })
   lastname?: string;
   @Column({ nullable: true })
@@ -42,6 +48,6 @@ export class Partner extends BaseEntity {
   @Column({ nullable: true })
   uploadedFilePreview?: string
 
-  @OneToMany(() => Onboarding, o => o.partner)
+  @OneToMany(() => Onboarding, o => o.personal)
   onboarding: Onboarding;
 }

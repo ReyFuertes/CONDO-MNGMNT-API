@@ -9,7 +9,7 @@ export class HomeownerRepository extends Repository<Homeowner> {
     const query = this.createQueryBuilder('homeowner');
 
     const results = await query
-      .orderBy('created_date', 'DESC')
+      // .orderBy('created_date', 'DESC')
       .getMany();
 
     return results;

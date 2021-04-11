@@ -8,10 +8,11 @@ export class Children extends BaseEntity {
   @Generated('uuid')
   id: string;
 
-  @ManyToOne(() => Homeowner, m => m.children,
-    { nullable: true })
-  @JoinColumn({ name: 'homeowner_id' })
-  homeowner: Homeowner;
+  // @ManyToOne(() => Homeowner, m => m.children,
+  //   { nullable: true })
+  // @JoinColumn({ name: 'homeowner_id' })
+  // homeowner: Homeowner;
+
   @ManyToOne(() => Tenant, m => m.children,
     { nullable: true })
   @JoinColumn({ name: 'tenant_id' })

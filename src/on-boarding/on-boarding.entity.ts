@@ -1,6 +1,10 @@
+import { Document } from "src/document/document.entity";
 import { Homeowner } from "src/homeowner/homeowner.entity";
+import { Occupant } from "src/occupant/occupant.entity";
+import { Partner } from "src/partner/partner.entity";
+import { Personal } from "src/personal/personal.entity";
 import { Tenant } from "src/tenant/tenant.entity";
-import { Entity, BaseEntity, PrimaryGeneratedColumn, Generated, Column, OneToMany, ManyToOne, OneToOne, JoinColumn } from "typeorm";
+import { Entity, BaseEntity, PrimaryGeneratedColumn, Generated, Column, OneToMany, ManyToOne, OneToOne, JoinColumn, CreateDateColumn } from "typeorm";
 
 @Entity({ synchronize: true })
 export class Onboarding extends BaseEntity {
@@ -8,13 +12,25 @@ export class Onboarding extends BaseEntity {
   @Generated('uuid')
   id: string;
 
-  @ManyToOne(() => Homeowner, m => m.onboarding,
-    { nullable: true })
-  @JoinColumn({ name: 'homeowner_id' })
-  homeowner: Homeowner;
+  @Column({ nullable: true })
+  type: string;
 
-  @ManyToOne(() => Tenant, m => m.onboarding,
-    { nullable: true })
-  @JoinColumn({ name: 'tenant_id' })
-  tenant: Tenant;
+  @CreateDateColumn({ type: 'timestamptz' })
+  created_at: string;
+
+  @OneToMany(() => Occupant, o => o.onboarding, { nullable: true, cascade: true })
+  occupants: Occupant[];
+
+  @OneToMany(() => Document, o => o.onboarding)
+  documents: Document[];
+
+  @ManyToOne(() => Personal, p => p.onboarding,
+    { nullable: true, cascade: true })
+  @JoinColumn({ name: 'personal_id' })
+  personal: Personal;
+
+  @ManyToOne(() => Partner, p => p.onboarding,
+    { nullable: true, cascade: true })
+  @JoinColumn({ name: 'partner_id' })
+  partner: Partner;
 }

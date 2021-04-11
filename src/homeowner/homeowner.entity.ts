@@ -34,12 +34,12 @@ export class Homeowner extends BaseEntity {
   @Column({ nullable: true })
   uploaded_file: string;
 
-  @OneToMany(() => Onboarding, o => o.homeowner)
-  onboarding: Onboarding;
-  @OneToMany(() => Partner, o => o.homeowner)
-  partner: Partner;
-  @OneToMany(() => Children, o => o.homeowner)
-  children: Children;
-  @OneToMany(() => Business, o => o.homeowner)
-  business: Business;
+  // @OneToMany(() => Onboarding, o => o.homeowner)
+  // onboarding: Onboarding;
+  // @OneToMany(() => Partner, o => o.homeowner)
+  // partner: Partner;
+  // @OneToMany(() => Children, o => o.homeowner)
+  // children: Children;
+  // @OneToMany(() => Business, o => o.homeowner)
+  // business: Business;
 }

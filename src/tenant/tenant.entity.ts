@@ -34,10 +34,10 @@ export class Tenant extends BaseEntity {
   @Column({ nullable: true })
   uploaded_file: string;
 
-  @OneToMany(() => Onboarding, o => o.tenant)
-  onboarding: Onboarding;
-  @OneToMany(() => Partner, o => o.tenant)
-  partner: Partner;
+  // @OneToMany(() => Onboarding, o => o.tenant)
+  // onboarding: Onboarding;
+  // @OneToMany(() => Partner, o => o.tenant)
+  // partner: Partner;
   @OneToMany(() => Children, o => o.tenant)
   children: Children;
   @OneToMany(() => Business, o => o.tenant)
