@@ -4,6 +4,7 @@ import { Occupant } from "src/occupant/occupant.entity";
 import { Partner } from "src/partner/partner.entity";
 import { Personal } from "src/personal/personal.entity";
 import { Tenant } from "src/tenant/tenant.entity";
+import { Vehicle } from "src/vehicle/vehicle.entity";
 import { Entity, BaseEntity, PrimaryGeneratedColumn, Generated, Column, OneToMany, ManyToOne, OneToOne, JoinColumn, CreateDateColumn } from "typeorm";
 
 @Entity({ synchronize: true })
@@ -20,6 +21,9 @@ export class Onboarding extends BaseEntity {
 
   @OneToMany(() => Occupant, o => o.onboarding, { nullable: true, cascade: true })
   occupants: Occupant[];
+
+  @OneToMany(() => Vehicle, o => o.onboarding, { nullable: true, cascade: true })
+  vehicles: Vehicle[];
 
   @OneToMany(() => Document, o => o.onboarding)
   documents: Document[];

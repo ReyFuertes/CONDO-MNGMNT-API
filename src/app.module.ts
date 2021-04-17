@@ -12,6 +12,7 @@ import { BusinessModule } from './business/business.module';
 import { OccupantModule } from './occupant/occupant.module';
 import { PersonalModule } from './personal/personal.module';
 import { DocumentModule } from './document/document.module';
+import { VehicleModule } from './vehicle/vehicle.module';
 
 const apiModules = [
   OnboardingModule,
@@ -23,7 +24,8 @@ const apiModules = [
   OnboardingModule,
   OccupantModule,
   PersonalModule,
-  DocumentModule
+  DocumentModule,
+  VehicleModule
 ];
 
 @Module({
