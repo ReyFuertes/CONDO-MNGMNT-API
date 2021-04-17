@@ -25,7 +25,7 @@ export class Onboarding extends BaseEntity {
   @OneToMany(() => Vehicle, o => o.onboarding, { nullable: true, cascade: true })
   vehicles: Vehicle[];
 
-  @OneToMany(() => Document, o => o.onboarding)
+  @OneToMany(() => Document, o => o.onboarding, { nullable: true, cascade: true })
   documents: Document[];
 
   @ManyToOne(() => Personal, p => p.onboarding,
