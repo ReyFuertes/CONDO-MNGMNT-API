@@ -10,7 +10,7 @@ export class OnboardingService extends BaseService<Onboarding> {
   constructor(@InjectRepository(OnboardingRepository) public repo: OnboardingRepository) {
     super(repo);
   }
-
+  
   async getOnboardings(dto: any): Promise<IOnboarding[]> {
     return this.repo.getOnboardings(dto);
   }

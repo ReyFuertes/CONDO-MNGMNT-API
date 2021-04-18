@@ -7,29 +7,16 @@ export class Document extends BaseEntity {
   @Generated('uuid')
   id: string;
 
+  @Column({ nullable: true, type: 'bigint' })
+  lastModified: string;
   @Column({ nullable: true })
-  amenities_registration_form: string;
-
+  lastModifiedDate: Date;
   @Column({ nullable: true })
-  movein_notice_clearance_form: string;
-
+  name: string
+  @Column({ nullable: true, type: 'bigint' })
+  size: string;
   @Column({ nullable: true })
-  residents_information_sheet: string;
-
-  @Column({ nullable: true })
-  vehicle_registration_car_sticker_form: string;
-
-  @Column({ nullable: true })
-  id_card_application_form: string;
-
-  @Column({ nullable: true })
-  signature_information_card: string;
-
-  @Column({ nullable: true })
-  waiver: string;
-
-  @Column({ nullable: true })
-  contract: string;
+  type: string;
 
   @ManyToOne(() => Onboarding, m => m.documents,
     { nullable: true })

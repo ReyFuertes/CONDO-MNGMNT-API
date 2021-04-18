@@ -4,12 +4,11 @@ import { Onboarding } from './on-boarding.entity';
 
 @EntityRepository(Onboarding)
 export class OnboardingRepository extends Repository<Onboarding> {
+
   async getOnboardings(dto: any): Promise<IOnboarding[]> {
     const query = this.createQueryBuilder('Onboarding');
 
-    const results = await query
-      // .orderBy('created_date', 'DESC')
-      .getMany();
+    const results = await query.getMany();
     return results;
   }
 
@@ -35,7 +34,6 @@ export class OnboardingRepository extends Repository<Onboarding> {
   }
 
   async createOnboarding(dto: IOnboarding): Promise<IOnboarding> {
-    console.log(dto)
     const result = await this.save(dto);
     return result;
   }

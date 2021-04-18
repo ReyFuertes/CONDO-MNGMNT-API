@@ -10,7 +10,7 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
   password: 'p@55w0rd',
   database: 'cma',
   entities: [__dirname + 'dist/../**/*.entity.{js,ts}'],
-  synchronize: false,
+  synchronize: true,
   logging: false,
   namingStrategy: new SnakeNamingStrategy(),
 }

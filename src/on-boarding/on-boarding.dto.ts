@@ -1,4 +1,4 @@
-import { IDocument } from "src/document/doucment.dto";
+import { IDocument } from "src/document/document.dto";
 import { IPartner } from "src/partner/partner.dto";
 import { IPersonal } from "src/personal/personal.dto";
 
