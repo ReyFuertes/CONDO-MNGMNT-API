@@ -27,6 +27,7 @@ export class OnboardingController {
     fileFilter: (req, file, cb) => filter(req, file, cb),
   }))
   async uploadMultiple(@UploadedFiles() files: any[]) {
+    //put logger here
     console.log(Date.now() + ` uploaded contracts: ${files?.length} files`);
   }
 
