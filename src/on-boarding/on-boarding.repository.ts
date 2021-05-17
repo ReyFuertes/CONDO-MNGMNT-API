@@ -6,14 +6,21 @@ import { Onboarding } from './on-boarding.entity';
 export class OnboardingRepository extends Repository<Onboarding> {
 
   async getOnboardings(dto: any): Promise<IOnboarding[]> {
-    const query = this.createQueryBuilder('Onboarding');
+    const query = this.createQueryBuilder('onboarding')
+      .leftJoinAndSelect('onboarding.documents', 'documents')
+      .leftJoinAndSelect('onboarding.partner', 'partner')
+      .leftJoinAndSelect('onboarding.personal', 'personal')
+      .leftJoinAndSelect('onboarding.vehicles', 'vehicles')
+      .leftJoinAndSelect('onboarding.occupants', 'occupants')
+
+
 
     const results = await query.getMany();
     return results;
   }
 
   async getOnboarding(id: string): Promise<IOnboarding> {
-    const query = this.createQueryBuilder('Onboarding');
+    const query = this.createQueryBuilder('onboarding');
     const result = await query
       .where("id = :id", { id })
       .getOne()
