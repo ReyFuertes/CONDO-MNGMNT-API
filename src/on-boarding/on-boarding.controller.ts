@@ -4,8 +4,8 @@ import { IOnboarding } from 'src/on-boarding/on-boarding.dto';
 import { OnboardingService } from './on-boarding.service';
 import { join } from 'path';
 import { diskStorage } from 'multer';
-import { filter } from 'config/helpers/util';
-import { ONBOARDINGUPLOADPATH } from 'config/helpers/constants';
+import { filter } from 'src/config/helpers/util';
+import { ONBOARDINGUPLOADPATH } from 'src/config/helpers/constants';
 
 let fs = require('fs-extra');
 

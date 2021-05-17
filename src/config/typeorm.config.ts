@@ -24,7 +24,7 @@ export const typeOrmConfig: TypeOrmModuleOptions = {
 //   database: 'cma',
 //   entities: [__dirname + 'dist/../**/*.entity.{js,ts}'],
 //   ssl: true,
-//   synchronize: false,
+//   synchronize: true,
 //   logging: false,
 //   namingStrategy: new SnakeNamingStrategy(),
 // }
