@@ -1,7 +1,7 @@
 import { Document } from "src/document/document.entity";
 import { Homeowner } from "src/homeowner/homeowner.entity";
 import { Occupant } from "src/occupant/occupant.entity";
-import { Partner } from "src/partner/partner.entity";
+import { Spouse } from "src/spouse/spouse.entity";
 import { Personal } from "src/personal/personal.entity";
 import { Tenant } from "src/tenant/tenant.entity";
 import { Vehicle } from "src/vehicle/vehicle.entity";
@@ -33,8 +33,8 @@ export class Onboarding extends BaseEntity {
   @JoinColumn({ name: 'personal_id' })
   personal: Personal;
 
-  @ManyToOne(() => Partner, p => p.onboarding,
+  @ManyToOne(() => Spouse, p => p.onboarding,
     { nullable: true, cascade: true })
   @JoinColumn({ name: 'partner_id' })
-  partner: Partner;
+  spouse: Spouse;
 }

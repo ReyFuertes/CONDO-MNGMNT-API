@@ -1,7 +1,5 @@
 import { Business } from "src/business/business.entity";
 import { Children } from "src/children/children.entity";
-import { Onboarding } from "src/on-boarding/on-boarding.entity";
-import { Partner } from "src/partner/partner.entity";
 import { Entity, BaseEntity, PrimaryGeneratedColumn, Generated, Column, OneToMany, ManyToOne, OneToOne } from "typeorm";
 
 @Entity({ synchronize: true })
@@ -36,8 +34,8 @@ export class Tenant extends BaseEntity {
 
   // @OneToMany(() => Onboarding, o => o.tenant)
   // onboarding: Onboarding;
-  // @OneToMany(() => Partner, o => o.tenant)
-  // partner: Partner;
+  // @OneToMany(() => Spouse, o => o.tenant)
+  // spouse: Spouse;
   @OneToMany(() => Children, o => o.tenant)
   children: Children;
   @OneToMany(() => Business, o => o.tenant)

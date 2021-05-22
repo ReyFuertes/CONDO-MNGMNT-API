@@ -1,5 +1,3 @@
-import { Homeowner } from "src/homeowner/homeowner.entity";
-import { Partner } from "src/partner/partner.entity";
 import { Tenant } from "src/tenant/tenant.entity";
 import { Entity, BaseEntity, PrimaryGeneratedColumn, Generated, Column, OneToMany, ManyToOne, OneToOne, JoinColumn } from "typeorm";
 
@@ -13,10 +11,10 @@ export class Business extends BaseEntity {
   //   { nullable: true })
   // @JoinColumn({ name: 'homeowner_id' })
   // homeowner: Homeowner;
-  // @ManyToOne(() => Partner, m => m.business,
+  // @ManyToOne(() => Spouse, m => m.business,
   //   { nullable: true })
   // @JoinColumn({ name: 'partner_id' })
-  // partner: Partner;
+  // spouse: Spouse;
 
   @ManyToOne(() => Tenant, m => m.business,
     { nullable: true })

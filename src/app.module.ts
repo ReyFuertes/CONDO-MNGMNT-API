@@ -6,7 +6,7 @@ import { JwtModule } from '@nestjs/jwt';
 import { HomeownerModule } from './homeowner/homeowner.module';
 import { TenantModule } from './tenant/tenant.module';
 import { ChildrenModule } from './children/children.module';
-import { PartnerModule } from './partner/partner.module';
+import { SpouseModule } from './spouse/spouse.module';
 import { BusinessModule } from './business/business.module';
 import { OccupantModule } from './occupant/occupant.module';
 import { PersonalModule } from './personal/personal.module';
@@ -20,7 +20,7 @@ const apiModules = [
   HomeownerModule,
   TenantModule,
   ChildrenModule,
-  PartnerModule,
+  SpouseModule,
   BusinessModule,
   OnboardingModule,
   OccupantModule,

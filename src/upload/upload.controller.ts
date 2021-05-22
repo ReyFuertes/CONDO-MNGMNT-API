@@ -17,6 +17,7 @@ export class UploadController {
     storage: diskStorage({
       destination:async (req, file, cb) => {
         let path = join(__dirname, `../../../uploads/documents/`);
+        console.log(path)
         if (!fs.existsSync(path)) {
           fs.mkdirsSync(path);
         }

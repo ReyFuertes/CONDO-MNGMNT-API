@@ -14,6 +14,23 @@ let fs = require('fs-extra');
 export class OnboardingController {
   constructor(private srv: OnboardingService) { }
 
+  @Post('upload')
+  @UseInterceptors(FilesInterceptor('files', 50, {
+    storage: diskStorage({
+      destination: (req, file, cb) => {
+        let path = join(__dirname, `${ONBOARDINGUPLOADPATH}${req?.body?.name}/`);
+        fs.mkdirsSync(path);
+        cb(null, path);
+      },
+      filename: (req, file, cb) => fileNameFilter(req, file, cb),
+    }),
+    fileFilter: (req, file, cb) => filter(req, file, cb),
+  }))
+  async uploadMultiple(@UploadedFiles() files: any[]) {
+    //put logger here
+    console.log(Date.now() + ` uploaded contracts: ${files?.length} files`);
+  }
+
   @Get()
   getAll(@Query() dto: any): Promise<IOnboarding[]> {
     return this.srv.getOnboardings(dto);
