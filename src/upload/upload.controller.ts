@@ -16,8 +16,7 @@ export class UploadController {
   @UseInterceptors(FilesInterceptor('files', 50, {
     storage: diskStorage({
       destination:async (req, file, cb) => {
-        let path = join(__dirname, `../../../uploads/documents/`);
-        console.log(path)
+        let path = join(__dirname, `../../uploads/documents/`);
         if (!fs.existsSync(path)) {
           fs.mkdirsSync(path);
         }
@@ -27,8 +26,26 @@ export class UploadController {
     }),
     fileFilter: (req, file, cb) => filter(req, file, cb),
   }))
-  async uploadMultiple(@UploadedFiles() files: any[], @Req() req: any) {
+  async uploadMultipleFiles(@UploadedFiles() files: any[], @Req() req: any) {
     console.log(moment(new Date()).format('MM-DD-YYYY: hh:mm') + ': ' + ` uploaded: ${files?.length} files`);
+  }
+
+  @Post('images')
+  @UseInterceptors(FilesInterceptor('files', 50, {
+    storage: diskStorage({
+      destination:async (req, file, cb) => {
+        let path = join(__dirname, `../../uploads/images/`);
+        if (!fs.existsSync(path)) {
+          fs.mkdirsSync(path);
+        }
+        cb(null, path);
+      },
+      filename: (req, file, cb) => fileNameFilter(req, file, cb),
+    }),
+    fileFilter: (req, file, cb) => filter(req, file, cb),
+  }))
+  async uploadImages(@UploadedFiles() files: any[], @Req() req: any) {
+    console.log(moment(new Date()).format('MM-DD-YYYY: hh:mm') + ': ' + ` uploaded: ${files?.length} images`);
   }
 }
 

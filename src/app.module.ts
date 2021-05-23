@@ -14,6 +14,7 @@ import { DocumentModule } from './document/document.module';
 import { VehicleModule } from './vehicle/vehicle.module';
 import { typeOrmConfig } from './config/typeorm.config';
 import { UploadModule } from './upload/upload.module';
+import { ImageModule } from './image/image.module';
 
 const apiModules = [
   OnboardingModule,
@@ -27,7 +28,8 @@ const apiModules = [
   PersonalModule,
   DocumentModule,
   VehicleModule,
-  UploadModule
+  UploadModule,
+  ImageModule
 ];
 
 @Module({

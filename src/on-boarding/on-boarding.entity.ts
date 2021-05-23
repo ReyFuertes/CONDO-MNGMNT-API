@@ -35,6 +35,6 @@ export class Onboarding extends BaseEntity {
 
   @ManyToOne(() => Spouse, p => p.onboarding,
     { nullable: true, cascade: true })
-  @JoinColumn({ name: 'partner_id' })
+  @JoinColumn({ name: 'spouse_id' })
   spouse: Spouse;
 }

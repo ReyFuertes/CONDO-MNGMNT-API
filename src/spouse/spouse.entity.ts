@@ -1,8 +1,6 @@
-import { Business } from "src/business/business.entity";
-import { Homeowner } from "src/homeowner/homeowner.entity";
+import { Image } from "src/image/image.entity";
 import { Onboarding } from "src/on-boarding/on-boarding.entity";
-import { Tenant } from "src/tenant/tenant.entity";
-import { Entity, BaseEntity, PrimaryGeneratedColumn, Generated, Column, OneToMany, ManyToOne, OneToOne, JoinColumn } from "typeorm";
+import { Entity, BaseEntity, PrimaryGeneratedColumn, Generated, Column, OneToMany } from "typeorm";
 
 @Entity({ synchronize: true })
 export class Spouse extends BaseEntity {
@@ -44,4 +42,7 @@ export class Spouse extends BaseEntity {
 
   @OneToMany(() => Onboarding, o => o.spouse)
   onboarding: Onboarding;
+
+  @OneToMany(() => Image, o => o.spouse)
+  image: Image;
 }

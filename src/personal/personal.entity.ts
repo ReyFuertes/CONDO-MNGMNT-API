@@ -1,3 +1,4 @@
+import { Image } from "src/image/image.entity";
 import { Onboarding } from "src/on-boarding/on-boarding.entity";
 import { Entity, BaseEntity, PrimaryGeneratedColumn, Generated, Column, OneToMany, ManyToOne, OneToOne, JoinColumn } from "typeorm";
 
@@ -50,4 +51,7 @@ export class Personal extends BaseEntity {
 
   @OneToMany(() => Onboarding, o => o.personal)
   onboarding: Onboarding;
+
+  @OneToMany(() => Image, o => o.personal)
+  image: Image;
 }

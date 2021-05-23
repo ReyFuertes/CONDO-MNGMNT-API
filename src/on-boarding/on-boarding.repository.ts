@@ -55,8 +55,7 @@ export class OnboardingRepository extends Repository<Onboarding> {
   }
 
   async createOnboarding(dto: IOnboarding): Promise<IOnboarding> {
-    const result = await this.save(dto);
-    return result;
+    return await this.save(dto);
   }
 
   async updateOnboarding(dto: IOnboarding): Promise<IOnboarding> {
