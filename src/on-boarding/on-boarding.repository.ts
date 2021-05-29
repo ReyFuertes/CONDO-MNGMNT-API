@@ -3,6 +3,8 @@ import { DocumentRepository } from 'src/document/document.repository';
 import { Repository, EntityRepository, getRepository, getCustomRepository } from 'typeorm';
 import { IOnboarding } from './on-boarding.dto';
 import { Onboarding } from './on-boarding.entity';
+import { sqlOp, UserRoleType } from 'src/models/generic.model';
+import { BadRequestException } from '@nestjs/common';
 
 @EntityRepository(Onboarding)
 export class OnboardingRepository extends Repository<Onboarding> {
@@ -10,7 +12,25 @@ export class OnboardingRepository extends Repository<Onboarding> {
   async getOnboardings(dto: any): Promise<IOnboarding[]> {
     const query = this.createQueryBuilder('onboarding')
       .leftJoinAndSelect('onboarding.personal', 'personal')
-      .leftJoinAndSelect('onboarding.spouse', 'spouse')
+      .leftJoinAndSelect('onboarding.spouse', 'spouse');
+
+    const where = dto;
+    try {
+      Object.entries(where)?.forEach(c => {
+        const obj = Object.assign({}, Object.entries(c)
+          .reduce((acc, [k, v]) => ({ ...acc, [c[0]]: `%${v}%` }), {})
+        );
+        let op: sqlOp = sqlOp.iLike;
+
+        //if (+(Object.values(obj)[0]) || (Object.keys(obj)[0]).includes('.id')) op = sqlOp.eq;
+
+        query.orWhere(`${Object.keys(obj)} ${op} :${Object.keys(obj)}`, obj)
+
+        console.log(`${Object.keys(obj)} ${op} :${Object.keys(obj)}`, obj)
+      });
+    } catch (error) {
+      throw new BadRequestException();
+    }
 
     const results = await query.getMany();
 
