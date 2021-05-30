@@ -22,6 +22,8 @@ export class Spouse extends BaseEntity {
   @Column({ nullable: true })
   dateOfBirth?: string;
   @Column({ nullable: true })
+  contactNo?: string;
+  @Column({ nullable: true })
   occupation?: string;
   @Column({ nullable: true })
   busAddress?: string;

@@ -33,6 +33,8 @@ export class Personal extends BaseEntity {
   @Column({ nullable: true })
   occupation?: string;
   @Column({ nullable: true })
+  contactNo?: string;
+  @Column({ nullable: true })
   busAddress?: string;
   @Column({ nullable: true })
   busContactNo?: string;

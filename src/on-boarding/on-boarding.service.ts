@@ -1,7 +1,7 @@
 import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { BaseService } from '../base.service';
-import { IOnboarding } from './on-boarding.dto';
+import { IOnboadingResponseDto, IOnboarding } from './on-boarding.dto';
 import { Onboarding } from './on-boarding.entity';
 import { OnboardingRepository } from './on-boarding.repository';
 
@@ -11,7 +11,7 @@ export class OnboardingService extends BaseService<Onboarding> {
     super(repo);
   }
   
-  async getOnboardings(dto: any): Promise<IOnboarding[]> {
+  async getOnboardings(dto: any): Promise<IOnboadingResponseDto> {
     return this.repo.getOnboardings(dto);
   }
 

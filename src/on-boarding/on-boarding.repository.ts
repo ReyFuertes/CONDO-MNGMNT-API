@@ -1,7 +1,7 @@
 import { IDocument } from 'src/document/document.dto';
 import { DocumentRepository } from 'src/document/document.repository';
 import { Repository, EntityRepository, getRepository, getCustomRepository } from 'typeorm';
-import { IOnboarding } from './on-boarding.dto';
+import { IOnboadingResponseDto, IOnboarding } from './on-boarding.dto';
 import { Onboarding } from './on-boarding.entity';
 import { sqlOp, UserRoleType } from 'src/models/generic.model';
 import { BadRequestException } from '@nestjs/common';
@@ -9,12 +9,23 @@ import { BadRequestException } from '@nestjs/common';
 @EntityRepository(Onboarding)
 export class OnboardingRepository extends Repository<Onboarding> {
 
-  async getOnboardings(dto: any): Promise<IOnboarding[]> {
+  async getOnboardings(dto: any): Promise<IOnboadingResponseDto> {
     const query = this.createQueryBuilder('onboarding')
       .leftJoinAndSelect('onboarding.personal', 'personal')
       .leftJoinAndSelect('onboarding.spouse', 'spouse');
 
+    const query_count = this.createQueryBuilder('onboarding')
+    const result_count = await query_count.getCount();
+
     const where = dto;
+
+    const page = Object.assign({}, {
+      take: dto?.take,
+      skip: dto?.skip
+    });
+    delete where?.skip;
+    delete where?.take;
+
     try {
       Object.entries(where)?.forEach(c => {
         const obj = Object.assign({}, Object.entries(c)
@@ -25,11 +36,16 @@ export class OnboardingRepository extends Repository<Onboarding> {
         //if (+(Object.values(obj)[0]) || (Object.keys(obj)[0]).includes('.id')) op = sqlOp.eq;
 
         query.orWhere(`${Object.keys(obj)} ${op} :${Object.keys(obj)}`, obj)
-
-        console.log(`${Object.keys(obj)} ${op} :${Object.keys(obj)}`, obj)
       });
     } catch (error) {
       throw new BadRequestException();
+    }
+
+    if (page?.skip) {
+      query.skip(page?.skip)
+    }
+    if (page?.take) {
+      query.take(page?.take)
     }
 
     const results = await query.getMany();
@@ -40,7 +56,10 @@ export class OnboardingRepository extends Repository<Onboarding> {
         documents: await this.getDocuments(r?.id)
       }
     }));
-    return response;
+    return {
+      data: response,
+      count: result_count
+    };
   }
 
   async getDocuments(onboarding_id: string): Promise<IDocument[]> {

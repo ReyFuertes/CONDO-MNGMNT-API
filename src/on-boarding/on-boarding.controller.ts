@@ -1,6 +1,6 @@
 import { Controller, Post, UseInterceptors, Param, UploadedFile, HttpException, HttpStatus, Get, Res, UploadedFiles, Patch, Body, UseGuards, Req, BadRequestException, Query, Delete } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
-import { IOnboarding } from 'src/on-boarding/on-boarding.dto';
+import { IOnboadingResponseDto, IOnboarding } from 'src/on-boarding/on-boarding.dto';
 import { OnboardingService } from './on-boarding.service';
 import { join } from 'path';
 import { diskStorage } from 'multer';
@@ -32,7 +32,7 @@ export class OnboardingController {
   }
 
   @Get()
-  getAll(@Query() dto: any): Promise<IOnboarding[]> {
+  getAll(@Query() dto: any): Promise<IOnboadingResponseDto> {
     return this.srv.getOnboardings(dto);
   }
 
