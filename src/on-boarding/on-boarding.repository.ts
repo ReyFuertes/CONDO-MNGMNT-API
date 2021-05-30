@@ -1,10 +1,15 @@
-import { IDocument } from 'src/document/document.dto';
+import { IDocumentDto } from 'src/document/document.dto';
 import { DocumentRepository } from 'src/document/document.repository';
 import { Repository, EntityRepository, getRepository, getCustomRepository } from 'typeorm';
-import { IOnboadingResponseDto, IOnboarding } from './on-boarding.dto';
+import { IOnboadingResponseDto, IOnboardingDto } from './on-boarding.dto';
 import { Onboarding } from './on-boarding.entity';
 import { sqlOp, UserRoleType } from 'src/models/generic.model';
 import { BadRequestException } from '@nestjs/common';
+import { IOccupantDto } from 'src/occupant/occupant.dto';
+import { OccupantRepository } from 'src/occupant/occupant.repository';
+import { Occupant } from 'src/occupant/occupant.entity';
+import { IVehicleDto } from 'src/vehicle/vehicle.dto';
+import { VehicleRepository } from 'src/vehicle/vehicle.repository';
 
 @EntityRepository(Onboarding)
 export class OnboardingRepository extends Repository<Onboarding> {
@@ -50,19 +55,25 @@ export class OnboardingRepository extends Repository<Onboarding> {
 
     const results = await query.getMany();
 
-    const response: IOnboarding[] = await Promise.all(results?.map(async (r: IOnboarding) => {
-      return {
-        ...r,
-        documents: await this.getDocuments(r?.id)
-      }
-    }));
+    const fmtResult = await Promise.all(
+      results?.map(async (r: Onboarding) => {
+        return {
+          ...r,
+          documents: await this.getDocuments(r?.id),
+          occupants: [],
+          vehicles: []
+        }
+      }));;
+
+    const response: IOnboardingDto[] = Object.assign([], fmtResult);
+
     return {
       data: response,
       count: result_count
     };
   }
 
-  async getDocuments(onboarding_id: string): Promise<IDocument[]> {
+  async getDocuments(onboarding_id: string): Promise<IDocumentDto[]> {
     const repo = getCustomRepository(DocumentRepository);
     const query = repo.createQueryBuilder('document');
     const results = await query
@@ -72,32 +83,69 @@ export class OnboardingRepository extends Repository<Onboarding> {
     return results;
   }
 
-  async getOnboarding(id: string): Promise<IOnboarding> {
-    const query = this.createQueryBuilder('onboarding');
-    const result = await query
-      .where('id = :id', { id })
-      .getOne()
-    return result;
+  async getOccupants(onboarding_id: string): Promise<IOccupantDto[]> {
+    const repo = getCustomRepository(OccupantRepository);
+    const query = repo.createQueryBuilder('occupant');
+    const results = await query
+      .where('onboarding_id = :onboarding_id', { onboarding_id })
+      .getMany();
+
+    const response: IOccupantDto[] = Object.assign([], results?.map(r => r));
+
+    return response;
   }
 
-  async deleteById(id: string): Promise<IOnboarding> {
-    const exist = await this.findOne({ id });
+  async getVehicles(onboarding_id: string): Promise<IVehicleDto[]> {
+    const repo = getCustomRepository(VehicleRepository);
+    const query = repo.createQueryBuilder('vehicle');
+    const results = await query
+      .where('onboarding_id = :onboarding_id', { onboarding_id })
+      .getMany();
+
+    const response: IVehicleDto[] = Object.assign([], results?.map(r => r));
+
+    return response;
+  }
+
+  async getOnboarding(id: string): Promise<IOnboardingDto> {
+    const query = this.createQueryBuilder('onboarding')
+      .leftJoinAndSelect('onboarding.personal', 'personal')
+      .leftJoinAndSelect('onboarding.spouse', 'spouse');
+
+    const result = await query
+      .where('onboarding.id = :id', { id })
+      .getOne();
+
+    let response: IOnboardingDto = Object.assign({}, {
+      ...result,
+      occupants: await this.getOccupants(result?.id),
+      vehicles: await this.getVehicles(result?.id),
+      documents: await this.getDocuments(result?.id)
+    });
+
+    return response;
+  }
+
+  async deleteById(id: string): Promise<IOnboardingDto> {
+    let exist = await this.findOne({ id });
     if (exist) {
       this.createQueryBuilder()
         .delete()
         .from(Onboarding)
         .where('id = :id', { id })
         .execute();
-      return exist;
+
+      const response: IOnboardingDto = Object.assign(exist);
+      return response
     }
     return null;
   }
 
-  async createOnboarding(dto: IOnboarding): Promise<IOnboarding> {
+  async createOnboarding(dto: IOnboardingDto): Promise<IOnboardingDto> {
     return await this.save(dto);
   }
 
-  async updateOnboarding(dto: IOnboarding): Promise<IOnboarding> {
+  async updateOnboarding(dto: IOnboardingDto): Promise<IOnboardingDto> {
     const result = await this.save(dto);
     return result;
   }

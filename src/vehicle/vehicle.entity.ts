@@ -18,6 +18,6 @@ export class Vehicle extends BaseEntity {
 
   @ManyToOne(() => Onboarding, m => m.vehicles,
     { nullable: true })
-  @JoinColumn({ name: 'vehicle_id' })
+  @JoinColumn({ name: 'onboarding_id' })
   onboarding: Onboarding;
 }

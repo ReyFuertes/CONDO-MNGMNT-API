@@ -1,14 +1,18 @@
-import { IDocument } from "src/document/document.dto";
+import { IDocumentDto } from "src/document/document.dto";
 import { ISpouse } from "src/spouse/spouse.dto";
 import { IPersonal } from "src/personal/personal.dto";
+import { IOccupantDto } from "src/occupant/occupant.dto";
+import { IVehicleDto } from "src/vehicle/vehicle.dto";
 
 export interface IOnboadingResponseDto {
-  data: IOnboarding[], count: number
+  data: IOnboardingDto[], count: number
 }
-export interface IOnboarding {
+export interface IOnboardingDto {
   id?: string;
   type?: any;
   personal?: IPersonal;
   spouse?: ISpouse;
-  documents?: IDocument[]
+  documents?: IDocumentDto[];
+  occupants?: IOccupantDto[];
+  vehicles?: IVehicleDto[];
 }

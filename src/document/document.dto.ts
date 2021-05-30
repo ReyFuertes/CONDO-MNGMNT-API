@@ -1,5 +1,5 @@
 
-export interface IDocument {
+export interface IDocumentDto {
   id?: string;
   lastModified?: any;
   lastModifiedDate?: Date;

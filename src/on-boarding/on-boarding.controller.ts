@@ -1,6 +1,6 @@
 import { Controller, Post, UseInterceptors, Param, UploadedFile, HttpException, HttpStatus, Get, Res, UploadedFiles, Patch, Body, UseGuards, Req, BadRequestException, Query, Delete } from '@nestjs/common';
 import { FilesInterceptor } from '@nestjs/platform-express';
-import { IOnboadingResponseDto, IOnboarding } from 'src/on-boarding/on-boarding.dto';
+import { IOnboadingResponseDto, IOnboardingDto } from 'src/on-boarding/on-boarding.dto';
 import { OnboardingService } from './on-boarding.service';
 import { join } from 'path';
 import { diskStorage } from 'multer';
@@ -37,22 +37,22 @@ export class OnboardingController {
   }
 
   @Get('/:id')
-  get(@Param('id') id: string): Promise<IOnboarding> {
+  get(@Param('id') id: string): Promise<IOnboardingDto> {
     return this.srv.getOnboarding(id);
   }
 
   @Delete('/:id')
-  delete(@Param('id') id: string): Promise<IOnboarding> {
+  delete(@Param('id') id: string): Promise<IOnboardingDto> {
     return this.srv.deleteById(id);
   }
 
   @Post()
-  create(@Body() dto: IOnboarding): Promise<IOnboarding> {
+  create(@Body() dto: IOnboardingDto): Promise<IOnboardingDto> {
     return this.srv.createOnboarding(dto);
   }
 
   @Patch()
-  update(@Body() dto: IOnboarding): Promise<IOnboarding> {
+  update(@Body() dto: IOnboardingDto): Promise<IOnboardingDto> {
     return this.srv.updateOnboarding(dto);
   }
 }
