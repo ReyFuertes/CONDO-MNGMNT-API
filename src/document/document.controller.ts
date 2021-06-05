@@ -3,17 +3,18 @@ import { AuthGuard } from '@nestjs/passport';
 import { join } from 'path';
 import { DocumentService } from './document.service';
 @Controller('documents')
-@UseGuards(AuthGuard('jwt'))
+//@UseGuards(AuthGuard('jwt'))
 export class documentsController {
   constructor(private srv: DocumentService) { }
 
   /* serve file image */
-  @Get('/:id/:filename')
-  get(@Param('filename') filename, @Param('id') id, @Res() res) {
+  @Get('/:filename')
+  get(@Param('filename') filename, @Res() res) {
     try {
-      return res.sendFile(`${id}/${filename}`, { root: join(__dirname, '../../uploads/documents/') });
+      const root_path: string = join(__dirname, '../../../uploads/documents/');
+      return res.sendFile(`${filename}`, { root: root_path });
     } catch (error) {
-      console.log('Cannot find:' + filename);
+      console.log('Cannot find the file: ' + filename);
     }
   }
 }

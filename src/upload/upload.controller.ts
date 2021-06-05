@@ -16,7 +16,7 @@ export class UploadController {
   @UseInterceptors(FilesInterceptor('files', 50, {
     storage: diskStorage({
       destination:async (req, file, cb) => {
-        let path = join(__dirname, `../../uploads/documents/`);
+        let path = join(__dirname, `../../../uploads/documents/`);
         if (!fs.existsSync(path)) {
           fs.mkdirsSync(path);
         }
@@ -34,7 +34,7 @@ export class UploadController {
   @UseInterceptors(FilesInterceptor('files', 50, {
     storage: diskStorage({
       destination:async (req, file, cb) => {
-        let path = join(__dirname, `../../uploads/images/`);
+        let path = join(__dirname, `../../../uploads/images/`);
         if (!fs.existsSync(path)) {
           fs.mkdirsSync(path);
         }

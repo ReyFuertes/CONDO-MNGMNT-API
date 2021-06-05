@@ -116,11 +116,15 @@ export class OnboardingRepository extends Repository<Onboarding> {
       .where('onboarding.id = :id', { id })
       .getOne();
 
+    const occupants = await this.getOccupants(id);
+    const vehicles = await this.getVehicles(id);
+    const documents = await this.getDocuments(id);
+
     let response: IOnboardingDto = Object.assign({}, {
       ...result,
-      occupants: await this.getOccupants(result?.id),
-      vehicles: await this.getVehicles(result?.id),
-      documents: await this.getDocuments(result?.id)
+      occupants,
+      vehicles,
+      documents
     });
 
     return response;
@@ -146,7 +150,7 @@ export class OnboardingRepository extends Repository<Onboarding> {
   }
 
   async updateOnboarding(dto: IOnboardingDto): Promise<IOnboardingDto> {
-    const result = await this.save(dto);
-    return result;
+    let result = await this.save(dto);
+    return await this.getOnboarding(result?.id);
   }
 }
