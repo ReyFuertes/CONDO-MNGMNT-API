@@ -7,7 +7,7 @@ import { sqlOp, UserRoleType } from 'src/models/generic.model';
 import { BadRequestException } from '@nestjs/common';
 import { IOccupantDto } from 'src/occupant/occupant.dto';
 import { OccupantRepository } from 'src/occupant/occupant.repository';
-import { Occupant } from 'src/occupant/occupant.entity';
+import * as _ from 'lodash';
 import { IVehicleDto } from 'src/vehicle/vehicle.dto';
 import { VehicleRepository } from 'src/vehicle/vehicle.repository';
 
@@ -150,7 +150,17 @@ export class OnboardingRepository extends Repository<Onboarding> {
   }
 
   async updateOnboarding(dto: IOnboardingDto): Promise<IOnboardingDto> {
-    let result = await this.save(dto);
+    console.log(dto)
+    const payload = {
+      id: dto?.id,
+      personal: _.omitBy(dto?.personal, _.isNil),
+      spouse: _.omitBy(dto?.spouse, _.isNil),
+      occupants: dto?.occupants?.map(o => _.omitBy(o, _.isNil)),
+      vehicles: dto?.vehicles?.map(v => _.omitBy(v, _.isNil)),
+      documents: dto?.documents?.map(d => _.omitBy(d, _.isNil)),
+    }
+
+    let result = await this.save(payload);
     return await this.getOnboarding(result?.id);
   }
 }

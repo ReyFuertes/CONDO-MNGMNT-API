@@ -38,7 +38,7 @@ export class Spouse extends BaseEntity {
   @Column({ nullable: true })
   idNo?: string;
   @Column({ nullable: true })
-  uploadedIdFile?: string;
+  uploadSpouseIdFile?: string;
   @Column({ nullable: true })
   uploadedFilePreview?: string
 

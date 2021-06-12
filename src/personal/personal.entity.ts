@@ -47,7 +47,7 @@ export class Personal extends BaseEntity {
   @Column({ nullable: true })
   idNo?: string;
   @Column({ nullable: true })
-  uploadedIdFile?: string;
+  uploadPersonalIdFile?: string;
   @Column({ nullable: true })
   uploadedFilePreview?: string
 
