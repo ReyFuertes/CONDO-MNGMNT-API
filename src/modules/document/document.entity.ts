@@ -2,7 +2,7 @@ import { Onboarding } from "src/modules/on-boarding/on-boarding.entity";
 import { Entity, BaseEntity, PrimaryGeneratedColumn, Generated, Column, OneToMany, ManyToOne, OneToOne, JoinColumn } from "typeorm";
 import { Homeowner } from "../homeowner/homeowner.entity";
 
-@Entity({ synchronize: true })
+@Entity({ synchronize: false })
 export class Document extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   @Generated('uuid')
@@ -10,12 +10,16 @@ export class Document extends BaseEntity {
 
   @Column({ nullable: true, type: 'bigint' })
   lastModified: string;
+
   @Column({ nullable: true })
   lastModifiedDate: Date;
+
   @Column({ nullable: true })
   name: string
+
   @Column({ nullable: true, type: 'bigint' })
   size: string;
+  
   @Column({ nullable: true })
   type: string;
 

@@ -1,5 +1,4 @@
-import { Entity, BaseEntity, PrimaryGeneratedColumn, Generated, Column, OneToMany, ManyToOne, OneToOne, JoinColumn, Unique } from "typeorm";
-import { Children } from "../children/children.entity";
+import { Entity, BaseEntity, PrimaryGeneratedColumn, Generated, Column, OneToMany, ManyToOne, OneToOne, JoinColumn, Unique, CreateDateColumn } from "typeorm";
 import { Document } from "../document/document.entity";
 import { Occupant } from "../occupant/occupant.entity";
 import { Onboarding } from "../on-boarding/on-boarding.entity";
@@ -7,11 +6,14 @@ import { Personal } from "../personal/personal.entity";
 import { Spouse } from "../spouse/spouse.entity";
 import { Vehicle } from "../vehicle/vehicle.entity";
 
-@Entity({ synchronize: true })
+@Entity({ synchronize: false })
 export class Homeowner extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   @Generated('uuid')
   id: string;
+
+  @CreateDateColumn({ type: 'timestamptz', precision: 6 })
+  created_at: Date;
 
   @ManyToOne(() => Onboarding, p => p.homeowner,
     { nullable: true, cascade: true })
@@ -28,12 +30,12 @@ export class Homeowner extends BaseEntity {
   @JoinColumn({ name: 'spouse_id' })
   spouse: Spouse;
 
-  @OneToMany(() => Occupant, o => o.homeowner, { nullable: true, cascade: true })
+  @OneToMany(() => Occupant, o => o.homeowner, { nullable: true })
   occupants: Occupant[];
 
-  @OneToMany(() => Vehicle, o => o.homeowner, { nullable: true, cascade: true })
+  @OneToMany(() => Vehicle, v => v.homeowner, { nullable: true })
   vehicles: Vehicle[];
 
-  @OneToMany(() => Document, m => m.homeowner, { nullable: true, cascade: true })
+  @OneToMany(() => Document, d => d.homeowner, { nullable: true })
   documents: Document[];
 }

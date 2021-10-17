@@ -2,7 +2,7 @@ import { Personal } from "src/modules/personal/personal.entity";
 import { Spouse } from "src/modules/spouse/spouse.entity";
 import { Entity, BaseEntity, PrimaryGeneratedColumn, Generated, Column, OneToMany, ManyToOne, OneToOne, CreateDateColumn, JoinColumn } from "typeorm";
 
-@Entity({ synchronize: true })
+@Entity({ synchronize: false })
 export class Image extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   @Generated('uuid')

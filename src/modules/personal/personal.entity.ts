@@ -3,7 +3,7 @@ import { Onboarding } from "src/modules/on-boarding/on-boarding.entity";
 import { Entity, BaseEntity, PrimaryGeneratedColumn, Generated, Column, OneToMany, ManyToOne, OneToOne, JoinColumn, CreateDateColumn } from "typeorm";
 import { Homeowner } from "../homeowner/homeowner.entity";
 
-@Entity({ synchronize: true })
+@Entity({ synchronize: false })
 export class Personal extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   @Generated('uuid')

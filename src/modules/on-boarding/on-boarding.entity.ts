@@ -7,7 +7,7 @@ import { Tenant } from "src/modules/tenant/tenant.entity";
 import { Vehicle } from "src/modules/vehicle/vehicle.entity";
 import { Entity, BaseEntity, PrimaryGeneratedColumn, Generated, Column, OneToMany, ManyToOne, OneToOne, JoinColumn, CreateDateColumn } from "typeorm";
 
-@Entity({ synchronize: true })
+@Entity({ synchronize: false })
 export class Onboarding extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   @Generated('uuid')

@@ -1,24 +1,46 @@
 import { Repository, EntityRepository, getRepository, getCustomRepository } from 'typeorm';
+import { DocumentRepository } from '../document/document.repository';
+import { OccupantRepository } from '../occupant/occupant.repository';
 import { PersonalRepository } from '../personal/personal.repository';
+import { VehicleRepository } from '../vehicle/vehicle.repository';
 import { IHomeowner } from './homeowner.dto';
 import { Homeowner } from './homeowner.entity';
 
 @EntityRepository(Homeowner)
 export class HomeownerRepository extends Repository<Homeowner> {
 
-  async getHomeowners(dto: any): Promise<IHomeowner[]> {
-    const repo = getCustomRepository(PersonalRepository);
-    const query = repo.createQueryBuilder('personal');
+  async getHomeowners(dto: any): Promise<any> {
+    const repo = getCustomRepository(HomeownerRepository);
+
+    const occupant_repo = getCustomRepository(OccupantRepository);
+    const document_repo = getCustomRepository(DocumentRepository);
+    const vehicles_repo = getCustomRepository(VehicleRepository);
+
+    /* optimize this */
+    const query = repo.createQueryBuilder('homeowner');
     const results = await query
-      .orderBy('created_at', 'DESC')
+      .innerJoinAndSelect('homeowner.personal', 'personal')
+      .innerJoinAndSelect('homeowner.spouse', 'spouse')
+      .orderBy('homeowner.created_at', 'DESC')
       .getMany();
 
-    const response = results.map(personal => {
+    const response = await Promise.all(results.map(async (homeowner) => {
+      const occupants = await occupant_repo.find({
+        where: { homeowner: homeowner?.id }
+      });
+      const documents = await document_repo.find({
+        where: { homeowner: homeowner?.id }
+      });
+      const vehicles = await vehicles_repo.find({
+        where: { homeowner: homeowner?.id }
+      });
       return {
-        ...personal,
-        
+        ...homeowner,
+        occupants,
+        documents,
+        vehicles
       }
-    });
+    }));
 
     return response;
   }

@@ -16,13 +16,13 @@ import { HomeownerRepository } from '../homeowner/homeowner.repository';
 export class OnboardingRepository extends Repository<Onboarding> {
 
   async ondelete(dto: any): Promise<IOnboardingDto> {
-    const is_deleted = Object.assign({}, dto, { is_deleted: false });
+    const is_deleted = Object.assign({}, dto, { is_deleted: true });
     const response = await this.save(is_deleted);
     return response;
   }
 
   async onarchive(dto: any): Promise<IOnboardingDto> {
-    const is_archive = Object.assign({}, dto, { is_archived: false });
+    const is_archive = Object.assign({}, dto, { is_archived: true });
     const response = await this.save(is_archive);
     return response;
   }
@@ -36,7 +36,7 @@ export class OnboardingRepository extends Repository<Onboarding> {
       const exist = await repo.findOne({
         where: { personal: { id: dto?.personal?.id } }
       });
-      if(!exist) {
+      if (!exist) {
         const homeowner: IOnboardingDto = {
           onboarding: { id: dto?.id },
           personal: dto?.personal,
@@ -54,12 +54,10 @@ export class OnboardingRepository extends Repository<Onboarding> {
   }
 
   async getOnboardings(dto: any): Promise<IOnboadingResponseDto> {
+    console.log(dto)
     const query = this.createQueryBuilder('onboarding')
       .leftJoinAndSelect('onboarding.personal', 'personal')
       .leftJoinAndSelect('onboarding.spouse', 'spouse')
-      // .where('onboarded = :onboarded', { onboarded: false })
-      // .andWhere('is_archived = :is_archived', { is_archived: false })
-      // .andWhere('is_deleted = :is_deleted', { is_deleted: false })
 
     const query_count = this.createQueryBuilder('onboarding')
     const result_count = await query_count.getCount();
@@ -79,9 +77,8 @@ export class OnboardingRepository extends Repository<Onboarding> {
           .reduce((acc, [k, v]) => ({ ...acc, [c[0]]: `%${v}%` }), {})
         );
         let op: sqlOp = sqlOp.iLike;
-
+ 
         //if (+(Object.values(obj)[0]) || (Object.keys(obj)[0]).includes('.id')) op = sqlOp.eq;
-
         query.orWhere(`${Object.keys(obj)} ${op} :${Object.keys(obj)}`, obj)
       });
     } catch (error) {
@@ -94,6 +91,10 @@ export class OnboardingRepository extends Repository<Onboarding> {
     if (page?.take) {
       query.take(page?.take)
     }
+
+    // query.andWhere('onboarded = :onboarded', { onboarded: false })
+    //   .andWhere('is_archived = :is_archived', { is_archived: false })
+    //   .andWhere('is_deleted = :is_deleted', { is_deleted: false })
 
     const results = await query.getMany();
 
@@ -188,19 +189,26 @@ export class OnboardingRepository extends Repository<Onboarding> {
   }
 
   async createOnboarding(dto: IOnboardingDto): Promise<IOnboardingDto> {
-    return await this.save(dto);
+    const payload = _.omitBy({
+      type: dto?.type,
+      personal: _.omitBy(dto?.personal, _.isNil),
+      spouse: _.omitBy(dto?.spouse, _.isNil),
+      occupants: dto?.occupants?.map(o => _.omitBy(o, _.isNil)),
+      vehicles: dto?.vehicles?.map(v => _.omitBy(v, _.isNil)),
+      documents: dto?.documents?.map(d => _.omitBy(d, _.isNil)),
+    }, _.isNil);
+    return await this.save(payload);
   }
 
   async updateOnboarding(dto: IOnboardingDto): Promise<IOnboardingDto> {
-    const payload = {
+    const payload = _.omitBy({
       id: dto?.id,
       personal: _.omitBy(dto?.personal, _.isNil),
       spouse: _.omitBy(dto?.spouse, _.isNil),
       occupants: dto?.occupants?.map(o => _.omitBy(o, _.isNil)),
       vehicles: dto?.vehicles?.map(v => _.omitBy(v, _.isNil)),
       documents: dto?.documents?.map(d => _.omitBy(d, _.isNil)),
-    }
-
+    }, _.isNil);
     let result = await this.save(payload);
     return await this.getOnboarding(result?.id);
   }

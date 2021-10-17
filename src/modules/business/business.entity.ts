@@ -1,7 +1,7 @@
 import { Tenant } from "src/modules/tenant/tenant.entity";
 import { Entity, BaseEntity, PrimaryGeneratedColumn, Generated, Column, OneToMany, ManyToOne, OneToOne, JoinColumn } from "typeorm";
 
-@Entity({ synchronize: true })
+@Entity({ synchronize: false })
 export class Business extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   @Generated('uuid')

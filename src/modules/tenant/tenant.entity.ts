@@ -2,7 +2,7 @@ import { Business } from "src/modules/business/business.entity";
 import { Children } from "src/modules/children/children.entity";
 import { Entity, BaseEntity, PrimaryGeneratedColumn, Generated, Column, OneToMany, ManyToOne, OneToOne } from "typeorm";
 
-@Entity({ synchronize: true })
+@Entity({ synchronize: false })
 export class Tenant extends BaseEntity {
   @PrimaryGeneratedColumn('uuid')
   @Generated('uuid')
