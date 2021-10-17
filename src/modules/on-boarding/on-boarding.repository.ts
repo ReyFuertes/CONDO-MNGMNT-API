@@ -77,7 +77,7 @@ export class OnboardingRepository extends Repository<Onboarding> {
           .reduce((acc, [k, v]) => ({ ...acc, [c[0]]: `%${v}%` }), {})
         );
         let op: sqlOp = sqlOp.iLike;
- 
+
         //if (+(Object.values(obj)[0]) || (Object.keys(obj)[0]).includes('.id')) op = sqlOp.eq;
         query.orWhere(`${Object.keys(obj)} ${op} :${Object.keys(obj)}`, obj)
       });
@@ -92,9 +92,9 @@ export class OnboardingRepository extends Repository<Onboarding> {
       query.take(page?.take)
     }
 
-    // query.andWhere('onboarded = :onboarded', { onboarded: false })
-    //   .andWhere('is_archived = :is_archived', { is_archived: false })
-    //   .andWhere('is_deleted = :is_deleted', { is_deleted: false })
+    query.andWhere('onboarded = :onboarded', { onboarded: false })
+      .andWhere('is_archived = :is_archived', { is_archived: false })
+      .andWhere('is_deleted = :is_deleted', { is_deleted: false })
 
     const results = await query.getMany();
 
@@ -203,13 +203,14 @@ export class OnboardingRepository extends Repository<Onboarding> {
   async updateOnboarding(dto: IOnboardingDto): Promise<IOnboardingDto> {
     const payload = _.omitBy({
       id: dto?.id,
+      type: dto?.type,
       personal: _.omitBy(dto?.personal, _.isNil),
       spouse: _.omitBy(dto?.spouse, _.isNil),
       occupants: dto?.occupants?.map(o => _.omitBy(o, _.isNil)),
       vehicles: dto?.vehicles?.map(v => _.omitBy(v, _.isNil)),
       documents: dto?.documents?.map(d => _.omitBy(d, _.isNil)),
     }, _.isNil);
-    let result = await this.save(payload);
-    return await this.getOnboarding(result?.id);
+    console.log(payload)
+    return await this.save(payload);
   }
 }
